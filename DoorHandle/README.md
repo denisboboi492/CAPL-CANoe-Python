@@ -1,1 +1,1 @@
-
+The goal of this project is to develop a system that enables remote control of a door handle, as visually represented by an Arduino's built-in LED. This system will utilize a panel created in Canoe, with code written in CAPL, and will be integrated with an Arduino device. This can be used to create automated test cases based on specific requirements.
