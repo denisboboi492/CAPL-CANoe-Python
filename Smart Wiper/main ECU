@@ -1,0 +1,35 @@
+/*@!Encoding:1252*/
+variables
+{
+  int valoare_viteza_stergator;
+  int viteza_transmisa_stergator;
+  message m_comunicare m_comunicare;
+}
+
+
+on message m_senzor_umiditate{
+  
+  valoare_viteza_stergator=this.byte(0);
+  
+  if(valoare_viteza_stergator>=0x0 && valoare_viteza_stergator<=0x7){
+   viteza_transmisa_stergator=0x0; 
+  }
+  else if (valoare_viteza_stergator>=0x8 && valoare_viteza_stergator<=0xF){
+    viteza_transmisa_stergator=0x1;
+  }
+  else if (valoare_viteza_stergator>=0x10 && valoare_viteza_stergator<=0x1F){
+    viteza_transmisa_stergator=0x2;
+  }
+  else if (valoare_viteza_stergator>=0x20 && valoare_viteza_stergator<=0x28){
+    viteza_transmisa_stergator=0x3;
+  }
+  else{
+    write("valoare invalida");
+  }
+  
+  m_comunicare.byte(0)=viteza_transmisa_stergator;
+  output(m_comunicare);
+  write("valoare in ECU: %d",viteza_transmisa_stergator);
+  
+}
+
