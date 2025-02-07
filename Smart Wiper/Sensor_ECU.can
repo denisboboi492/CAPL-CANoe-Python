@@ -1,0 +1,32 @@
+/*@!Encoding:1252*/
+variables
+{
+  msTimer timer_senzor;
+  int valoare_senzor;
+  message m_senzor_umiditate m_senzor_umiditate;
+}
+
+
+
+on timer timer_senzor{
+  
+  
+  
+  m_senzor_umiditate.byte(0)=0;
+  
+  valoare_senzor=random(40);
+  m_senzor_umiditate.byte(0)=valoare_senzor;
+  
+  
+  output(m_senzor_umiditate);
+  write("viteza senzorului: %d",valoare_senzor);
+  
+  setTimer(timer_senzor,7000);
+}
+
+
+on start{
+ setTimer(timer_senzor,7000); 
+  
+}
+
