@@ -1,0 +1,20 @@
+/*@!Encoding:1252*/
+variables
+{
+  int v_viteza;
+  message m_control_stergatoare m_control_stergatoare;
+}
+
+on message m_comunicare{
+  v_viteza=this.byte(0);
+  
+}
+
+on key 'S'{
+  m_control_stergatoare.byte(0)=v_viteza;
+  
+  output(m_control_stergatoare);
+  
+  write("valoare STERGATOR: %d",v_viteza);
+}
+
