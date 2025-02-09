@@ -11,4 +11,4 @@ Let's examine each button to understand its purpose.
 - The lock touch and duration components work together to simulate the pressing of lock sensor for a specified period. Same for unlock touch and duration.
 - Send lock button will send a stimulus to actuate the sensor. Same for send unlock.
 
-On the Arduino side, code available [here](https://github.com/denisboboi492/CAPL-CANoe/blob/main/DoorHandle/Arduino_side.ino), the lock/unlock sensor, in our case Arduino's built-in LED, is triggered by commands received from the COM port.
+On the Arduino side, code available [here](https://github.com/denisboboi492/CAPL-CANoe/blob/main/DoorHandle/Arduino_side.ino), the lock/unlock sensor, simulated with Arduino's built-in LED, is triggered by commands received from the COM port.
