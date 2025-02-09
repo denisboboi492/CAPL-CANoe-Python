@@ -1,0 +1,162 @@
+/*@!Encoding:1252*/
+
+variables {
+  int portNumber = 5;
+  char TextSimpleLock[20] = "LOCK\n";
+  char TextSimpleUnlock[20] = "UNLOCK\n";
+  char TextTouchLock[20] = "LOCKTOUCH";
+  char TextTouchUnlock[20] = "UNLOCKTOUCH";
+  byte buffer[100];
+  int i, length, var_duration_lock, var_duration_unlock;
+}
+
+on start {
+ @Port_Number_input=portNumber;
+}
+
+on preStop {
+CloseSerialPort();
+}
+
+on sysvar Open_Serial_Port_send_command {
+  if (RS232Open(@Port_Number_input) == 1) {
+    write("Serial port opened successfully.");
+    @Led_Indicator=1;
+  }
+  else {
+    write("Error opening serial port.");
+    @Led_Indicator=0;
+  }
+  
+  if (RS232Configure(@Port_Number_input, 9600, 8, 1, 0) == 1) {
+    write("Serial port configured.");
+  }
+  else {
+    write("Error configuring serial port.");
+  }
+  
+}
+
+on sysvar Close_Serial_Port_send_command {
+  if (RS232Close(@Port_Number_input) == 1) {
+    write("Serial port closed successfully.");
+    @Led_Indicator=0;
+  }
+  else {
+    write("Error closing serial port.");
+  }
+}
+
+void CloseSerialPort() {
+  if (RS232Close(@Port_Number_input) == 1) {
+    write("Serial port closed successfully.");
+    @Led_Indicator=0;
+  }
+  else {
+    write("Error closing serial port.");
+  }
+}
+
+on sysvar Send_Simple_Lock {
+  length = strlen(TextSimpleLock) + 1;
+  for(i = 0; i < length; i++) {
+    buffer[i] = TextSimpleLock[i];
+  }
+  if (RS232Send(@Port_Number_input, buffer, length) == 1) {
+    write("LOCK command sent.");
+  }
+  else {
+    write("Failed to send LOCK command.");
+  }
+  
+  for(i = 0; i < length; i++) {
+    buffer[i] = 0;
+  }
+}
+
+on sysvar Send_Simple_Unlock {
+  length = strlen(TextSimpleUnlock) + 1;
+  for(i = 0; i < length; i++) {
+    buffer[i] = TextSimpleUnlock[i];
+  }
+  if (RS232Send(@Port_Number_input, buffer, length) == 1) {
+    write("UNLOCK command sent.");
+  }
+  else {
+    write("Failed to send UNLOCK command.");
+  }
+  
+  for(i = 0; i < length; i++) {
+    buffer[i] = 0;
+  }
+}
+
+on sysvar Send_Touch_Lock {
+  char durationStr[10];
+  
+  for(i = 0; i < 100; i++) {
+    buffer[i] = 0;
+  }
+  
+  var_duration_lock = @Duration_Lock;
+  
+  length = strlen(TextTouchLock);
+  for(i = 0; i < length; i++) {
+    buffer[i] = TextTouchLock[i];
+  }
+  
+  buffer[length] = ',';
+  
+  snprintf(durationStr, elcount(durationStr), "%d", var_duration_lock); // int to string
+  
+  length = length + 1;
+  i = 0;
+  while(durationStr[i] != 0) {
+    buffer[length + i] = durationStr[i];
+    i++;
+  }
+  
+  length = length + i;
+  
+  if (RS232Send(@Port_Number_input, buffer, length) == 1) { 
+    write("LOCK touch command sent: %d bytes", length);
+  }
+  else {
+    write("Failed to send LOCK touch command.");
+  }
+}
+
+on sysvar Send_Touch_Unlock {
+  char durationStr[10];
+  
+  for(i = 0; i < 100; i++) {
+    buffer[i] = 0;
+  }
+  
+  var_duration_unlock = @Duration_Unlock;
+  
+  length = strlen(TextTouchUnlock);
+  for(i = 0; i < length; i++) {
+    buffer[i] = TextTouchUnlock[i];
+  }
+  
+  buffer[length] = ',';
+  
+  snprintf(durationStr, elcount(durationStr), "%d", var_duration_unlock); // int to string
+  
+  length = length + 1;
+  i = 0;
+  while(durationStr[i] != 0) {
+    buffer[length + i] = durationStr[i];
+    i++;
+  }
+  
+  length = length + i;
+  
+  if (RS232Send(@Port_Number_input, buffer, length) == 1) { 
+    write("UNLOCK touch command sent: %d bytes", length);
+  }
+  else {
+    write("Failed to send UNLOCK touch command.");
+  }
+}
