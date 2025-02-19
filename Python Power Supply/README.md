@@ -6,7 +6,7 @@ Bellow you can preview the panel:
 
 ![image](https://github.com/user-attachments/assets/f50a1588-a76a-499f-bc79-6a2cdcae514a)
 
-
+The panel contains buttons for connecting to a specific resource, 
 
 
 
