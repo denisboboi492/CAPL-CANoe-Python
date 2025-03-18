@@ -18,7 +18,7 @@ def main():
         sys.exit(1)  # Exit with error
 
     # Test 2: Check if a number is even
-    test_number = 4  # Change this number to test different cases
+    test_number = 3  # Change this number to test different cases
     if is_number_even(test_number):
         print(f" {test_number} is even")
     else:
