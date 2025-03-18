@@ -11,6 +11,12 @@ def is_number_even(n):
 def main():
     print("Running tests in hello_world.py...\n")
 
+    if is_python_version_correct():
+        print(" Python version is correct (3.x)")
+    else:
+        print(" Incorrect Python version!")
+        sys.exit(1)  # Exit with error
+
     # Test 2: Check if a number is even
     test_number = 4  # Change this number to test different cases
     if is_number_even(test_number):
