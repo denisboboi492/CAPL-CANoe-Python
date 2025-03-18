@@ -1,5 +1,4 @@
 import sys
-import pytest
 
 def is_python_version_correct():
     """Check if Python version is 3.x and return True/False"""
@@ -31,4 +30,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    pytest.main(["--junitxml=Jenkins/test-results.xml"])
