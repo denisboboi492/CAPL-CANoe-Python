@@ -1,0 +1,32 @@
+pipeline{
+    agent any
+    triggers {
+        pollSCM('H/5 * * * *')
+    }
+    stages{
+        stage('Build'){
+            steps{
+                echo "Building my repo"
+                git branch: 'main', url: 'https://github.com/denisboboi492/CAPL-CANoe-Python.git'
+            }
+        }
+        stage('Setup Python'){
+            steps{
+                bat '''
+                echo Checking for Python
+                python --version || exit /b 1
+                echo Python is installed!
+                '''
+            }
+        }
+        stage('Test Script'){
+            steps{
+                bat '''
+                echo "Running Python Script..."
+                python Jenkins/hello_world.py
+                python Jenkins/hello_world.py > output.log 2>&1
+                '''
+            }
+        }
+    }
+}
